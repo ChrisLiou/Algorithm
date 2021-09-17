@@ -1,0 +1,53 @@
+class Person:
+    def __init__(self,person):
+        self.name=person
+        self.isAlive=True
+        self.child=[]
+
+class Monarchy:
+    def __init__(self,name):
+        self.king=Person(name)
+        self.toNode={self.king.name:self.king}
+
+    def birth(self,childName,parentName):
+        childNode=Person(childName)
+        parentNode=self.toNode[parentName]
+        
+        parentNode.child.append(childNode)
+        self.toNode[childName]=childNode
+
+    def death(self,name):
+        currentPerson=self.toNode[name]
+        currentPerson.isAlive=False
+
+    def dfs(self,currentPerson,order):
+        if currentPerson.isAlive:
+            order.append(currentPerson.name)
+        for i in range(len(currentPerson.child)):
+            self.dfs(currentPerson.child[i],order)
+
+    def getOrderOfSuccession(self):
+        order=[]
+        self.dfs(self.king,order)
+        return order
+
+
+
+
+
+mon = Monarchy('Jake')
+mon.birth('Catherine', 'Jake')
+mon.birth('Tom', 'Jake')
+mon.birth('Celine', 'Jake')
+mon.birth('Peter', 'Celine')
+mon.birth('Jane', 'Catherine')
+mon.birth('Farah', 'Jane')
+mon.birth('Mark', 'Catherine')
+print(mon.getOrderOfSuccession())
+
+mon.death('Jake')
+mon.death('Jane')
+
+print(mon.getOrderOfSuccession())
+
+
