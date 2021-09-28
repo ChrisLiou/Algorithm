@@ -1,0 +1,8 @@
+class Solution:
+    def minMoves(self, nums: List[int]) -> int:
+        #We increment n - 1 elements of the array by 1: moves*(len(nums)-1)
+        
+        #sum(nums) + moves * (len(nums) - 1) = finalValue * len(nums)
+        #finalValue = min(nums) + moves
+        moves = sum(nums) - min(nums) * len(nums)
+        return moves
